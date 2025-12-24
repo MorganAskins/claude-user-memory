@@ -1,6 +1,6 @@
 # Agents Overview
 
-The Agentic Substrate provides **9 specialized agents** that work together across the complete software development lifecycle:
+The Agentic Substrate provides **16 specialized agents** that work together across the complete software development lifecycle:
 
 ---
 
@@ -136,9 +136,185 @@ The Agentic Substrate provides **9 specialized agents** that work together acros
 
 ---
 
-## TIER 3: PRODUCTION DEPLOYMENT (3 agents - Deploy → Monitor → Optimize)
+## TIER 3: CODE QUALITY (4 agents - Review → Test → Refactor → Security)
 
-### 7. brahma-deployer
+### 7. code-reviewer
+**Purpose**: Code review specialist for quality, security, and best practices
+
+**Use when**: Before commits, for PR reviews, wanting a second opinion
+
+**Example**: "Review the authentication changes before merging"
+
+**What it does**:
+- Systematic review by priority (security → correctness → performance → maintainability)
+- OWASP Top 10 security checklist for sensitive code
+- Provides actionable suggestions with concrete fixes
+- Acknowledges good code, not just problems
+- Clear APPROVE / REQUEST CHANGES / BLOCK decisions
+
+**Think Protocol**:
+- **think**: Simple function reviews
+- **think hard**: Complex logic, architectural concerns
+- **think harder**: Security vulnerabilities, race conditions
+
+**Command**: `/review`
+
+**Tools**: Read, Grep, Glob, Bash, TodoWrite
+
+---
+
+### 8. test-generator
+**Purpose**: Comprehensive test suite generation
+
+**Use when**: Need tests for existing code, improving coverage, TDD support
+
+**Example**: "Generate tests for the UserService class"
+
+**What it does**:
+- Generates unit tests (isolated, fast)
+- Creates integration tests (component interaction)
+- Covers edge cases (boundaries, errors, null handling)
+- Uses AAA pattern (Arrange-Act-Assert)
+- Runs generated tests to verify they work
+
+**Think Protocol**:
+- **think**: Simple function tests
+- **think hard**: Complex state, async flows
+- **think harder**: Integration tests, mocking strategies
+
+**Command**: `/test`
+
+**Tools**: Read, Grep, Glob, Bash, Write, TodoWrite
+
+---
+
+### 9. security-auditor
+**Purpose**: Security scanning and vulnerability assessment
+
+**Use when**: Security audits, pre-deployment checks, vulnerability assessment
+
+**Example**: "Audit the application for security vulnerabilities"
+
+**What it does**:
+- OWASP Top 10 compliance checking
+- Dependency vulnerability scanning (CVEs)
+- Secrets detection (API keys, credentials)
+- Security header verification
+- Remediation guidance with severity ratings
+
+**Think Protocol**:
+- **think**: Common vulnerability patterns
+- **think hard**: Complex attack vectors
+- **think harder**: Cryptographic issues, auth flows
+
+**Command**: `/audit`
+
+**Tools**: Read, Grep, Glob, Bash, WebFetch, TodoWrite
+
+---
+
+### 10. refactoring-specialist
+**Purpose**: Safe, incremental code improvement
+
+**Use when**: Reducing technical debt, improving code quality without changing behavior
+
+**Example**: "Refactor the payment service to reduce complexity"
+
+**What it does**:
+- Detects code smells (bloaters, couplers, dispensables)
+- Applies refactoring techniques (Extract Method, Extract Class, etc.)
+- Preserves behavior through test verification
+- Commits each change separately for easy rollback
+- Provides before/after metrics
+
+**Think Protocol**:
+- **think**: Simple renames, extractions
+- **think hard**: Design pattern application
+- **think harder**: Architecture changes
+
+**Command**: `/refactor`
+
+**Tools**: Read, Grep, Glob, Bash, Edit, Write, TodoWrite
+
+---
+
+## TIER 4: INFRASTRUCTURE (3 agents - Migrate → Dependencies → API Design)
+
+### 11. migration-specialist
+**Purpose**: Database, API, and dependency migrations
+
+**Use when**: Schema changes, version upgrades, platform migrations
+
+**Example**: "Migrate the database from MySQL to PostgreSQL"
+
+**What it does**:
+- Database schema migrations (add/modify/remove)
+- Data migrations and transformations
+- API version upgrades
+- Dependency major version upgrades
+- Zero-downtime migration strategies
+- Comprehensive rollback plans
+
+**Think Protocol**:
+- **think**: Simple schema additions
+- **think hard**: Data transformations
+- **think harder**: Breaking changes, zero-downtime planning
+
+**Command**: `/migrate`
+
+**Tools**: Read, Grep, Glob, Bash, Write, Edit, WebFetch, TodoWrite
+
+---
+
+### 12. dependency-manager
+**Purpose**: Package management and security compliance
+
+**Use when**: Updating dependencies, resolving conflicts, security patching
+
+**Example**: "Update all dependencies and fix security vulnerabilities"
+
+**What it does**:
+- Audits all dependencies (outdated, vulnerable, unused)
+- Analyzes changelogs for breaking changes
+- Resolves version conflicts
+- Plans safe update strategies by risk level
+- Provides dependency health scores
+
+**Think Protocol**:
+- **think**: Patch updates, security fixes
+- **think hard**: Minor version updates
+- **think harder**: Major version updates, conflicts
+
+**Tools**: Read, Grep, Glob, Bash, WebFetch, Write, TodoWrite
+
+---
+
+### 13. api-designer
+**Purpose**: API design and documentation specialist
+
+**Use when**: Designing new APIs, improving existing ones, generating specs
+
+**Example**: "Design a REST API for the order management system"
+
+**What it does**:
+- Designs REST and GraphQL APIs
+- Generates OpenAPI 3.0 specifications
+- Plans versioning strategies
+- Creates comprehensive documentation
+- Follows best practices and conventions
+
+**Think Protocol**:
+- **think**: Simple endpoint design
+- **think hard**: Resource relationships, pagination
+- **think harder**: Versioning strategy, breaking changes
+
+**Tools**: Read, Grep, Glob, Write, WebFetch, TodoWrite
+
+---
+
+## TIER 5: PRODUCTION DEPLOYMENT (3 agents - Deploy → Monitor → Optimize)
+
+### 14. brahma-deployer
 **Purpose**: Production deployment specialist with safety-first patterns
 
 **Use when**: Deploying to production, managing releases
@@ -164,7 +340,7 @@ The Agentic Substrate provides **9 specialized agents** that work together acros
 
 ---
 
-### 8. brahma-monitor
+### 15. brahma-monitor
 **Purpose**: Observability and monitoring specialist
 
 **Use when**: Setting up observability, tracking SLI/SLO, incident detection
@@ -190,7 +366,7 @@ The Agentic Substrate provides **9 specialized agents** that work together acros
 
 ---
 
-### 9. brahma-optimizer
+### 16. brahma-optimizer
 **Purpose**: Performance optimization and auto-scaling specialist
 
 **Use when**: Performance issues, scaling challenges, cost optimization
@@ -223,14 +399,15 @@ The Agentic Substrate provides **9 specialized agents** that work together acros
 ```bash
 /workflow Add Redis caching to ProductService
 ```
-**Sequence**: research → plan → analyze → implement → (deploy → monitor → optimize)
+**Sequence**: research → plan → analyze → implement → (review → test → deploy → monitor → optimize)
 
 ### Step-by-Step Control
 ```bash
 /research Redis for Node.js v5.0
 /plan Redis caching for ProductService
-# Review plan, then:
 /implement
+/review
+/test
 ```
 
 ### Direct Agent Invocation
@@ -238,12 +415,40 @@ The Agentic Substrate provides **9 specialized agents** that work together acros
 @chief-architect Build complete payment processing system
 @docs-researcher Research Stripe API v2023-10-16
 @implementation-planner Plan integration of Stripe webhooks
-@brahma-analyzer Validate plan consistency
 @code-implementer Execute payment integration plan
+@code-reviewer Review the implementation
+@test-generator Generate tests for payment service
+@security-auditor Audit payment code for vulnerabilities
 @brahma-deployer Deploy to production with canary
 @brahma-monitor Set up observability for payment service
 @brahma-optimizer Optimize payment processing latency
 ```
+
+### Quality-Focused Workflow
+```bash
+/review src/services/          # Review code first
+/test src/services/            # Generate missing tests
+/audit                         # Security audit
+/refactor src/services/        # Improve code quality
+```
+
+---
+
+## COMMAND QUICK REFERENCE
+
+| Command | Agent | Purpose |
+|---------|-------|---------|
+| `/workflow` | chief-architect | Complete automation |
+| `/research` | docs-researcher | Documentation research |
+| `/plan` | implementation-planner | Create implementation plan |
+| `/implement` | code-implementer | Execute plan |
+| `/review` | code-reviewer | Code review |
+| `/test` | test-generator | Generate tests |
+| `/audit` | security-auditor | Security audit |
+| `/refactor` | refactoring-specialist | Code refactoring |
+| `/debug` | brahma-investigator | Debugging |
+| `/migrate` | migration-specialist | Migrations |
+| `/context` | - | Context management |
 
 ---
 
@@ -331,33 +536,6 @@ All agents support extended thinking modes:
 
 ---
 
-## FUTURE ENHANCEMENTS (V4.0 Roadmap)
-
-**LangGraph Integration** (Weeks 1-3):
-- State machine orchestration
-- PostgreSQL checkpointing (pause/resume workflows)
-- Visual debugging
-- Best-in-class performance (lowest latency, lowest tokens)
-
-**Deep Agents Integration** (Weeks 4-5):
-- Long-running task capabilities for code-implementer
-- Subagent spawning (test-runner, linter, security)
-- File system prevents context overflow
-
-**DSPy Optimization** (Weeks 6-8):
-- Systematic prompt optimization for top 5 agents
-- 20-40% accuracy improvement expected
-- Model portability (swap Claude ↔ GPT-4 ↔ Gemini)
-
-**CrewAI Rapid Prototyping** (Weeks 9-10):
-- 3-5x faster development for new capabilities
-- 40+ pre-built tools
-- Built-in memory (short/long-term + entity)
-
-See `SELF-ENHANCEMENT-BLUEPRINT.md` for complete V4.0 roadmap.
-
----
-
-**Updated**: 2025-11-06 (V3.0 → V4.0 transition)
-**Agent Count**: 9 (was documented as 4, now corrected)
-**Documentation Integrity**: 95/100 (was 32/100)
+**Updated**: 2025-12-24 (V4.2 - Added 7 new agents, 6 new commands)
+**Agent Count**: 16 (was 9)
+**Command Count**: 11 (was 5)
