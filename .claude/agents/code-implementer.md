@@ -626,113 +626,35 @@ npm run benchmark
 
 Verify performance within acceptable range.
 
-### Phase 5: Git Commit (if all tests pass)
+### Phase 5: Hand Off to Commit Validator
 
 After successful implementation and verification:
 
-**Git Protocol**
+```
+✅ Implementation complete - all tests passing
+✅ Build successful
 
-**Step 1: Check Status**
-```bash
-git status
+📋 Ready for pre-commit validation
+
+Next: @commit-validator will:
+1. Run `pre-commit run --all-files`
+2. Auto-fix formatting/linting issues
+3. Re-verify all hooks pass
+4. Stage and commit changes
 ```
 
-Verify which files were modified/created in this implementation.
+**If running standalone (not in /workflow)**:
 
-**Step 2: Stage Changes**
-```bash
-git add [files created/modified in this implementation]
+Report completion status and recommend:
+```
+✅ Implementation complete
+
+Next steps:
+1. Run `/commit` to validate and commit changes
+2. Or manually run: `pre-commit run --all-files`
 ```
 
-Only stage files relevant to this implementation. Never include:
-- `.env` files
-- `credentials.json` or secrets
-- Large binary files (> 1MB) without explicit approval
-- `node_modules/` or dependency directories
-
-**Step 3: Create Commit Message**
-
-Format:
-```
-[type]: [1-line summary of what was implemented]
-
-[2-3 lines describing WHY this change was made, not WHAT was changed]
-
-Implemented from ImplementationPlan.md
-
-🤖 Generated with Claude Code
-
-Co-Authored-By: Claude <noreply@anthropic.com>
-```
-
-**Commit Types**:
-- `feat`: New feature
-- `fix`: Bug fix
-- `refactor`: Code restructuring without functionality change
-- `test`: Adding or updating tests
-- `docs`: Documentation only
-- `perf`: Performance improvement
-- `style`: Code style/formatting (no logic change)
-- `chore`: Maintenance tasks (dependencies, tooling)
-
-**Example Commit Message**:
-```
-feat: Add Redis caching to ProductService with 5-minute TTL
-
-Implemented caching layer to reduce database load and improve response
-times for frequently accessed product data. TTL set to 5 minutes based
-on product update frequency analysis.
-
-Implemented from ImplementationPlan.md
-
-🤖 Generated with Claude Code
-
-Co-Authored-By: Claude <noreply@anthropic.com>
-```
-
-**Step 4: Commit**
-```bash
-git commit -m "$(cat <<'EOF'
-[Full commit message from step 3]
-EOF
-)"
-```
-
-**Step 5: Report**
-```
-✅ Changes committed: [commit hash]
-   Files changed: [N]
-   Insertions: +[N], Deletions: -[N]
-
-   Review: git show [hash]
-   Diff: git diff HEAD~1
-   Rollback: git reset --soft HEAD~1
-```
-
-**Safety Checks**:
-- ✅ Only commit if all tests pass (Phase 3 complete)
-- ✅ Never commit sensitive files (.env, credentials, secrets)
-- ✅ Warn if committing large files (>1MB)
-- ✅ Verify git status shows expected files
-- ✅ User can review before pushing: `git show HEAD`
-
-**Why Git Operations?**
-
-From Anthropic research: "Engineers use Claude for 90%+ of git interactions." This is a production-ready pattern that maintains workflow continuity and enables autonomous operation.
-
-**Rollback Procedure** (if user wants to undo):
-```bash
-# Soft reset (keeps changes, undoes commit)
-git reset --soft HEAD~1
-
-# Hard reset (discards changes completely)
-git reset --hard HEAD~1  # DESTRUCTIVE - use with caution
-
-# Revert (creates new commit that undoes changes)
-git revert HEAD  # SAFE - preserves history
-```
-
-**Note**: This phase only commits locally. User must explicitly run `git push` to publish to remote.
+**Note**: The commit-validator agent handles all git operations including pre-commit validation, staging, and committing. This separation ensures code passes all quality gates before commit.
 
 ### Phase 6: Implementation Report
 

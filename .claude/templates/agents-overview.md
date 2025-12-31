@@ -1,6 +1,6 @@
 # Agents Overview
 
-The Agentic Substrate provides **17 specialized agents** that work together across the complete software development lifecycle:
+The Agentic Substrate provides **18 specialized agents** that work together across the complete software development lifecycle:
 
 ---
 
@@ -26,7 +26,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-## TIER 2: CORE WORKFLOW (5 agents - Research → Plan → Analyze → Implement → Debug)
+## TIER 2: CORE WORKFLOW (6 agents - Research → Plan → Analyze → Implement → Commit → Debug)
 
 ### 2. docs-researcher
 **Purpose**: High-speed documentation specialist
@@ -112,7 +112,37 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 6. brahma-investigator
+### 6. commit-validator (NEW)
+**Purpose**: Pre-commit validation and quality enforcement specialist
+
+**Use when**: Implementation complete, ready to prepare for commit
+
+**Example**: "Run pre-commit and prepare changes for commit"
+
+**What it does**:
+- Runs `pre-commit run --all-files` to validate code
+- Auto-fixes formatting issues (black, prettier, etc.)
+- Auto-fixes linting issues where possible (ruff --fix, eslint --fix)
+- Removes trailing whitespace and fixes end-of-file newlines
+- Self-corrects with 3 attempts for fixable issues
+- Stages and commits changes with descriptive message
+
+**Think Protocol**: Progressive modes based on issue complexity
+- **think** (30-60s): Simple formatting and whitespace fixes
+- **think hard** (1-2min): Complex linting errors, conflicting rules
+- **think harder** (2-4min): Type errors requiring code changes
+
+**Quality Gate**: All pre-commit hooks must pass before commit
+
+**Self-Correction**: Up to 3 attempts to fix issues automatically
+
+**Command**: `/commit`
+
+**Tools**: Read, Grep, Glob, Bash, Edit, Write, TodoWrite
+
+---
+
+### 7. brahma-investigator
 **Purpose**: Root cause analysis and debugging specialist
 
 **Use when**: Complex bugs, production incidents, system failures
@@ -138,7 +168,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ## TIER 3: CODE QUALITY (5 agents - Review → Test → Refactor → Security → PR Feedback)
 
-### 7. code-reviewer
+### 8. code-reviewer
 **Purpose**: Code review specialist for quality, security, and best practices
 
 **Use when**: Before commits, for PR reviews, wanting a second opinion
@@ -163,7 +193,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 8. test-generator
+### 9. test-generator
 **Purpose**: Comprehensive test suite generation
 
 **Use when**: Need tests for existing code, improving coverage, TDD support
@@ -188,7 +218,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 9. security-auditor
+### 10. security-auditor
 **Purpose**: Security scanning and vulnerability assessment
 
 **Use when**: Security audits, pre-deployment checks, vulnerability assessment
@@ -213,7 +243,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 10. refactoring-specialist
+### 11. refactoring-specialist
 **Purpose**: Safe, incremental code improvement
 
 **Use when**: Reducing technical debt, improving code quality without changing behavior
@@ -238,7 +268,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 11. pr-feedback-analyst
+### 12. pr-feedback-analyst
 **Purpose**: GitHub PR feedback triage and action planning
 
 **Use when**: PR has comments from Copilot, reviewers, or bots that need analysis
@@ -270,7 +300,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ## TIER 4: INFRASTRUCTURE (3 agents - Migrate → Dependencies → API Design)
 
-### 12. migration-specialist
+### 13. migration-specialist
 **Purpose**: Database, API, and dependency migrations
 
 **Use when**: Schema changes, version upgrades, platform migrations
@@ -296,7 +326,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 13. dependency-manager
+### 14. dependency-manager
 **Purpose**: Package management and security compliance
 
 **Use when**: Updating dependencies, resolving conflicts, security patching
@@ -319,7 +349,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 14. api-designer
+### 15. api-designer
 **Purpose**: API design and documentation specialist
 
 **Use when**: Designing new APIs, improving existing ones, generating specs
@@ -344,7 +374,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ## TIER 5: PRODUCTION DEPLOYMENT (3 agents - Deploy → Monitor → Optimize)
 
-### 15. brahma-deployer
+### 16. brahma-deployer
 **Purpose**: Production deployment specialist with safety-first patterns
 
 **Use when**: Deploying to production, managing releases
@@ -370,7 +400,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 16. brahma-monitor
+### 17. brahma-monitor
 **Purpose**: Observability and monitoring specialist
 
 **Use when**: Setting up observability, tracking SLI/SLO, incident detection
@@ -396,7 +426,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 
 ---
 
-### 17. brahma-optimizer
+### 18. brahma-optimizer
 **Purpose**: Performance optimization and auto-scaling specialist
 
 **Use when**: Performance issues, scaling challenges, cost optimization
@@ -429,13 +459,14 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 ```bash
 /workflow Add Redis caching to ProductService
 ```
-**Sequence**: research → plan → analyze → implement → (review → test → deploy → monitor → optimize)
+**Sequence**: research → plan → analyze → implement → commit → (review → test → deploy → monitor → optimize)
 
 ### Step-by-Step Control
 ```bash
 /research Redis for Node.js v5.0
 /plan Redis caching for ProductService
 /implement
+/commit
 /review
 /test
 ```
@@ -446,6 +477,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 @docs-researcher Research Stripe API v2023-10-16
 @implementation-planner Plan integration of Stripe webhooks
 @code-implementer Execute payment integration plan
+@commit-validator Run pre-commit and prepare for commit
 @code-reviewer Review the implementation
 @test-generator Generate tests for payment service
 @security-auditor Audit payment code for vulnerabilities
@@ -472,6 +504,7 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 | `/research` | docs-researcher | Documentation research |
 | `/plan` | implementation-planner | Create implementation plan |
 | `/implement` | code-implementer | Execute plan |
+| `/commit` | commit-validator | Pre-commit validation |
 | `/review` | code-reviewer | Code review |
 | `/test` | test-generator | Generate tests |
 | `/audit` | security-auditor | Security audit |
@@ -518,11 +551,17 @@ The Agentic Substrate provides **17 specialized agents** that work together acro
 - ✅ Coverage complete
 - ⛔ Blocks implementation if fails
 
-**Implementation → Completion**:
+**Implementation → Commit Preparation**:
 - ✅ All tests passing
 - ✅ Circuit breaker closed
 - ✅ Build successful
 - ⛔ Up to 3 self-corrections, then blocks
+
+**Commit Preparation → Completion**:
+- ✅ All pre-commit hooks pass
+- ✅ Auto-fixes verified
+- ✅ Changes committed
+- ⛔ Up to 3 fix attempts, then manual intervention
 
 ---
 
@@ -567,6 +606,6 @@ All agents support extended thinking modes:
 
 ---
 
-**Updated**: 2025-12-31 (V4.3 - Added pr-feedback-analyst agent)
-**Agent Count**: 17 (was 16)
-**Command Count**: 12 (was 11)
+**Updated**: 2025-12-31 (V4.4 - Added commit-validator agent)
+**Agent Count**: 18 (was 17)
+**Command Count**: 13 (was 12)

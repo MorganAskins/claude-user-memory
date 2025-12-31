@@ -3,16 +3,27 @@
 This repository contains the **Agentic Substrate** - the foundational layer for Claude Code superintelligence.
 
 ## System Version
-**Agentic Substrate v4.3** (PR Feedback Analysis)
+**Agentic Substrate v4.4** (Commit Validation)
 
-## 🔥 v4.3 Key Enhancements
+## 🔥 v4.4 Key Enhancements
 
-### PR Feedback Analyst (NEW)
-- **New Agent**: `pr-feedback-analyst` for triaging GitHub PR comments
-- **New Command**: `/pr-feedback` to analyze Copilot and reviewer suggestions
-- **Smart Validation**: Distinguishes valid suggestions from false positives
-- **Action Plans**: Creates prioritized implementation plans from valid feedback
-- **Dismissal Explanations**: Explains why invalid suggestions should be ignored
+### Commit Validator (NEW)
+- **New Agent**: `commit-validator` for pre-commit validation and quality enforcement
+- **New Command**: `/commit` to run pre-commit hooks and prepare clean commits
+- **Auto-Fix**: Automatically fixes formatting, linting, and whitespace issues
+- **Self-Correction**: Up to 3 attempts to resolve pre-commit failures
+- **Workflow Integration**: `/workflow` now includes commit preparation as final phase
+
+### Workflow Enhancement
+- **4-Phase Workflow**: Research → Plan → Implement → Commit (was 3 phases)
+- **Quality Gate**: All pre-commit hooks must pass before commit
+- **Auto-Commit**: Workflow now creates commit automatically after validation
+
+## 🔥 v4.3 Enhancements (Previous)
+
+### PR Feedback Analyst
+- **Agent**: `pr-feedback-analyst` for triaging GitHub PR comments
+- **Command**: `/pr-feedback` to analyze Copilot and reviewer suggestions
 
 ### DeepWiki MCP Integration (MANDATORY)
 - **Automatic Installation**: `install.sh` now installs DeepWiki MCP via Claude CLI
@@ -20,23 +31,13 @@ This repository contains the **Agentic Substrate** - the foundational layer for 
 - **Quality Gates**: Implementation blocked without DeepWiki verification
 - **API Accuracy**: Reduced hallucination rate from 15-30% to <2%
 
-### Agent Optimization
-- **Token Reduction**: 20-30% reduction in SERVE agent prompts
-- **Cleaner Prompts**: Verbose explanations replaced with references
-- **Maintained Quality**: Full functionality preserved
-
-### Agent Handoff Protocol (Design)
-- **Architecture Designed**: Swarm pattern selected (1.5x overhead vs 2-3x supervisor)
-- **Implementation Deferred**: Full implementation coming in v4.2
-- **Documentation**: See `AgentHandoffProtocol-DESIGN.md`
-
 ## Core Components
 
-### Agents (17 specialists across 5 tiers)
+### Agents (18 specialists across 5 tiers)
 @.claude/templates/agents-overview.md
 
 **Tier 1 - Orchestration**: chief-architect
-**Tier 2 - Core Workflow**: docs-researcher, implementation-planner, brahma-analyzer, code-implementer, brahma-investigator
+**Tier 2 - Core Workflow**: docs-researcher, implementation-planner, brahma-analyzer, code-implementer, commit-validator, brahma-investigator
 **Tier 3 - Code Quality**: code-reviewer, test-generator, security-auditor, refactoring-specialist, pr-feedback-analyst
 **Tier 4 - Infrastructure**: migration-specialist, dependency-manager, api-designer
 **Tier 5 - Production**: brahma-deployer, brahma-monitor, brahma-optimizer

@@ -603,14 +603,14 @@ Preserve full context between phases:
 Create implementation plan for [specific goal]
 ```
 
-## The 9-Agent System
+## The 10-Agent System
 
-You have access to 9 specialized agents organized in 3 tiers:
+You have access to 10 specialized agents organized in 3 tiers:
 
 ### **Tier 1: Orchestrator (1 agent)**
 - **@chief-architect** (you) - Master orchestrator for complex multi-agent workflows
 
-### **Tier 2: Core Workflow Agents (5 agents)** - BUILD-FIX-SERVE Lifecycle
+### **Tier 2: Core Workflow Agents (6 agents)** - BUILD-FIX-SERVE Lifecycle
 
 #### BUILD Phase:
 - **@docs-researcher** - Fetches version-accurate documentation from official sources
@@ -636,6 +636,13 @@ You have access to 9 specialized agents organized in 3 tiers:
   - Input: ResearchPack + Implementation Plan
   - Output: Working code with passing tests
   - Self-corrects: Up to 3 attempts if tests fail
+
+- **@commit-validator** - Pre-commit validation and quality enforcement (NEW)
+  - Use when: Implementation complete, ready to commit
+  - Input: Modified files from @code-implementer
+  - Output: Clean commit with all pre-commit hooks passing
+  - Self-corrects: Up to 3 attempts to fix linting/formatting issues
+  - Think mode: "think" for simple fixes, "think hard" for complex type errors
 
 #### FIX Phase:
 - **@brahma-investigator** - Systematic root-cause analysis and debugging
@@ -675,12 +682,14 @@ Simple feature (docs exist, clear approach):
   2. @implementation-planner
   3. @brahma-analyzer (quality gate)
   4. @code-implementer
+  5. @commit-validator (pre-commit + commit)
 
 Complex feature (novel, unclear approach):
   1. @docs-researcher (parallel multi-agent if many domains)
   2. @implementation-planner (with think protocol)
   3. @brahma-analyzer (critical quality gate)
   4. @code-implementer (TDD with self-correction)
+  5. @commit-validator (pre-commit + commit)
 ```
 
 ### For FIX workflows:
@@ -716,7 +725,7 @@ New service / Major change:
 
 ### Pattern 1: Standard Feature (Sequential)
 ```
-@docs-researcher → @implementation-planner → @brahma-analyzer → @code-implementer
+@docs-researcher → @implementation-planner → @brahma-analyzer → @code-implementer → @commit-validator
 Duration: 10-15 min
 Cost: 1x (sequential execution)
 ```
@@ -728,7 +737,7 @@ chief-architect (ultrathink decomposition)
     ├─ @docs-researcher (deployment) ┼→ Synthesize
     └─ @docs-researcher (security) ──┘
         ↓
-@implementation-planner → @brahma-analyzer → @code-implementer
+@implementation-planner → @brahma-analyzer → @code-implementer → @commit-validator
 
 Duration: 5-8 min (90% time reduction on research)
 Cost: 15x (parallel multi-agent)
@@ -742,6 +751,8 @@ Economic check: Required before parallel spawn
 @brahma-analyzer (validate fix consistency)
     ↓
 @code-implementer (apply fix with tests)
+    ↓
+@commit-validator (pre-commit + commit)
 
 Duration: 8-12 min
 Cost: 1.5x (sequential with quality gate)

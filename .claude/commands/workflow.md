@@ -15,7 +15,7 @@ Execute complete Research → Plan → Implement workflow using chief-architect 
 
 ## What This Does
 
-**Complete automation of all three phases**:
+**Complete automation of all four phases**:
 
 1. **Research Phase**
    - Invokes `@docs-researcher`
@@ -37,7 +37,14 @@ Execute complete Research → Plan → Implement workflow using chief-architect 
    - Validates tests pass
    - Records circuit breaker state
 
-4. **Knowledge Capture**
+4. **Commit Preparation Phase** (NEW)
+   - Invokes `@commit-validator`
+   - Runs `pre-commit run --all-files`
+   - Auto-fixes formatting and linting issues
+   - Validates all hooks pass
+   - Stages and commits changes
+
+5. **Knowledge Capture**
    - Applies `pattern-recognition` skill
    - Updates knowledge-core.md
    - Records decisions and learnings
@@ -82,6 +89,12 @@ You'll receive a **complete project report**:
 - Self-corrections made (if any)
 - Circuit breaker state
 
+**Commit Preparation**:
+- Pre-commit hooks passed (count)
+- Auto-fixes applied (count)
+- Manual fixes applied (count)
+- Commit hash
+
 ### 📚 Artifacts Created
 - ResearchPack.md
 - ImplementationPlan.md
@@ -111,21 +124,29 @@ At each phase transition:
 - ✅ Risk assessment complete
 - ⛔ If fail: Blocks implementation, requests fixes
 
-**Implementation → Completion**:
+**Implementation → Commit Preparation**:
 - ✅ Circuit breaker closed
 - ✅ All tests passing
 - ✅ Build successful
 - ⛔ If fail: Up to 3 self-corrections, then block
 
+**Commit Preparation → Completion**:
+- ✅ All pre-commit hooks pass
+- ✅ Auto-fixes verified
+- ✅ Changes staged and committed
+- ⛔ If fail: Up to 3 fix attempts, then manual intervention
+
 ## Advantages Over Manual Steps
 
-**Manual** (3 commands):
+**Manual** (4 commands):
 ```
 /research [topic]
 # wait, review
 /plan [feature]
 # wait, review
 /implement
+# wait, review
+/commit
 # wait, review
 ```
 
@@ -186,6 +207,12 @@ Typical completion by feature complexity:
 - Recommends manual intervention
 - Requires circuit breaker reset before retry
 
+**If commit preparation fails** (after 3 fix attempts):
+- Chief-architect reports remaining issues
+- Lists all pre-commit hook failures
+- Provides specific fix recommendations
+- Manual intervention required before commit
+
 ## Progress Tracking
 
 Chief-architect reports progress throughout:
@@ -204,6 +231,11 @@ Chief-architect reports progress throughout:
    📊 Implementation phase: 3/5 files complete...
    🧪 Running tests...
    ✅ All tests passing
+🤝 Delegating task 'commit preparation' to @commit-validator
+   🔧 Running pre-commit hooks...
+   ✅ 7/7 hooks passed
+   📝 Auto-fixed 2 files
+   ✅ Changes committed: abc1234
 🔄 Synthesizing results...
 ✅ Project complete: [summary]
 ```
@@ -249,20 +281,21 @@ After `/workflow` completes:
    - ResearchPack.md
    - ImplementationPlan.md
    - Code changes
+   - Commit (already created)
 
 2. **Verify implementation**
    - Run tests manually: `npm test`
    - Check build: `npm run build`
-   - Review changes: `git diff`
+   - Review commit: `git show HEAD`
 
 3. **Update knowledge**
    - Review knowledge-core.md updates
    - Add any additional lessons learned
 
-4. **Commit changes**
-   - Use meaningful commit message
-   - Reference implementation plan
-   - Include co-author attribution
+4. **Push changes** (commit already created by workflow)
+   - Review commit: `git show HEAD`
+   - Push to remote: `git push origin [branch]`
+   - Create PR if on feature branch
 
 5. **Deploy**
    - Follow your deployment procedure
@@ -276,11 +309,13 @@ After `/workflow` completes:
 Please invoke: `@chief-architect {args}`
 
 The chief-architect will:
-1. Orchestrate all three phases sequentially
+1. Orchestrate all four phases sequentially (research → plan → implement → commit)
 2. Enforce quality gates at each transition
 3. Handle errors and retries automatically
-4. Synthesize comprehensive final report
-5. Capture knowledge for future use
+4. Run pre-commit validation and auto-fix issues
+5. Create commit with descriptive message
+6. Synthesize comprehensive final report
+7. Capture knowledge for future use
 
 **Expected duration**: 10-60 minutes depending on complexity
 
