@@ -1,6 +1,6 @@
 {
   "manifest_version": "1.0.0",
-  "substrate_version": "4.2.0",
+  "substrate_version": "4.3.0",
   "managed_files": [
     "agents/brahma-analyzer.md",
     "agents/brahma-deployer.md",
@@ -18,6 +18,7 @@
     "agents/migration-specialist.md",
     "agents/api-designer.md",
     "agents/dependency-manager.md",
+    "agents/pr-feedback-analyst.md",
     "skills/context-engineering/skill.md",
     "skills/pattern-recognition/skill.md",
     "skills/planning-methodology/skill.md",
@@ -34,6 +35,7 @@
     "commands/refactor.md",
     "commands/debug.md",
     "commands/migrate.md",
+    "commands/pr-feedback.md",
     "hooks/auto-format.sh",
     "hooks/check-agent-economics.sh",
     "hooks/run-tests.sh",
@@ -98,10 +100,10 @@
     }
   },
   "metadata": {
-    "total_files": 49,
-    "agents": 16,
+    "total_files": 51,
+    "agents": 17,
     "skills": 5,
-    "commands": 11,
+    "commands": 12,
     "hooks": 7,
     "validators": 2,
     "metrics": 1,
