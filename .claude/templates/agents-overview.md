@@ -1,6 +1,6 @@
 # Agents Overview
 
-The Agentic Substrate provides **16 specialized agents** that work together across the complete software development lifecycle:
+The Agentic Substrate provides **17 specialized agents** that work together across the complete software development lifecycle:
 
 ---
 
@@ -136,7 +136,7 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 
 ---
 
-## TIER 3: CODE QUALITY (4 agents - Review → Test → Refactor → Security)
+## TIER 3: CODE QUALITY (5 agents - Review → Test → Refactor → Security → PR Feedback)
 
 ### 7. code-reviewer
 **Purpose**: Code review specialist for quality, security, and best practices
@@ -238,9 +238,39 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 
 ---
 
+### 11. pr-feedback-analyst
+**Purpose**: GitHub PR feedback triage and action planning
+
+**Use when**: PR has comments from Copilot, reviewers, or bots that need analysis
+
+**Example**: "Analyze Copilot suggestions on this PR and create a plan"
+
+**What it does**:
+- Fetches ALL PR comments (Copilot, humans, CI bots)
+- Validates each suggestion against the actual codebase
+- Distinguishes valid suggestions from false positives
+- Explains why invalid suggestions should be ignored
+- Creates prioritized implementation plan for valid feedback
+
+**Think Protocol**:
+- **think**: Simple lint/style suggestions
+- **think hard**: Conflicting suggestions, architectural feedback
+- **think harder**: Security-related feedback, major refactoring suggestions
+
+**Command**: `/pr-feedback`
+
+**Tools**: Read, Grep, Glob, Bash, TodoWrite
+
+**Trust Calibration**:
+- Copilot security suggestions: HIGH trust
+- Copilot null checks: MEDIUM trust (verify nullability)
+- Copilot style/refactoring: LOW trust (check project conventions)
+
+---
+
 ## TIER 4: INFRASTRUCTURE (3 agents - Migrate → Dependencies → API Design)
 
-### 11. migration-specialist
+### 12. migration-specialist
 **Purpose**: Database, API, and dependency migrations
 
 **Use when**: Schema changes, version upgrades, platform migrations
@@ -266,7 +296,7 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 
 ---
 
-### 12. dependency-manager
+### 13. dependency-manager
 **Purpose**: Package management and security compliance
 
 **Use when**: Updating dependencies, resolving conflicts, security patching
@@ -289,7 +319,7 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 
 ---
 
-### 13. api-designer
+### 14. api-designer
 **Purpose**: API design and documentation specialist
 
 **Use when**: Designing new APIs, improving existing ones, generating specs
@@ -314,7 +344,7 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 
 ## TIER 5: PRODUCTION DEPLOYMENT (3 agents - Deploy → Monitor → Optimize)
 
-### 14. brahma-deployer
+### 15. brahma-deployer
 **Purpose**: Production deployment specialist with safety-first patterns
 
 **Use when**: Deploying to production, managing releases
@@ -340,7 +370,7 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 
 ---
 
-### 15. brahma-monitor
+### 16. brahma-monitor
 **Purpose**: Observability and monitoring specialist
 
 **Use when**: Setting up observability, tracking SLI/SLO, incident detection
@@ -366,7 +396,7 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 
 ---
 
-### 16. brahma-optimizer
+### 17. brahma-optimizer
 **Purpose**: Performance optimization and auto-scaling specialist
 
 **Use when**: Performance issues, scaling challenges, cost optimization
@@ -448,6 +478,7 @@ The Agentic Substrate provides **16 specialized agents** that work together acro
 | `/refactor` | refactoring-specialist | Code refactoring |
 | `/debug` | brahma-investigator | Debugging |
 | `/migrate` | migration-specialist | Migrations |
+| `/pr-feedback` | pr-feedback-analyst | Analyze PR comments |
 | `/context` | - | Context management |
 
 ---
@@ -536,6 +567,6 @@ All agents support extended thinking modes:
 
 ---
 
-**Updated**: 2025-12-24 (V4.2 - Added 7 new agents, 6 new commands)
-**Agent Count**: 16 (was 9)
-**Command Count**: 11 (was 5)
+**Updated**: 2025-12-31 (V4.3 - Added pr-feedback-analyst agent)
+**Agent Count**: 17 (was 16)
+**Command Count**: 12 (was 11)

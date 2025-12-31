@@ -3,9 +3,16 @@
 This repository contains the **Agentic Substrate** - the foundational layer for Claude Code superintelligence.
 
 ## System Version
-**Agentic Substrate v4.1** (DeepWiki Enforcement & Agent Optimization)
+**Agentic Substrate v4.3** (PR Feedback Analysis)
 
-## 🔥 v4.1 Key Enhancements
+## 🔥 v4.3 Key Enhancements
+
+### PR Feedback Analyst (NEW)
+- **New Agent**: `pr-feedback-analyst` for triaging GitHub PR comments
+- **New Command**: `/pr-feedback` to analyze Copilot and reviewer suggestions
+- **Smart Validation**: Distinguishes valid suggestions from false positives
+- **Action Plans**: Creates prioritized implementation plans from valid feedback
+- **Dismissal Explanations**: Explains why invalid suggestions should be ignored
 
 ### DeepWiki MCP Integration (MANDATORY)
 - **Automatic Installation**: `install.sh` now installs DeepWiki MCP via Claude CLI
@@ -25,12 +32,14 @@ This repository contains the **Agentic Substrate** - the foundational layer for 
 
 ## Core Components
 
-### Agents (9 specialists across 3 tiers)
+### Agents (17 specialists across 5 tiers)
 @.claude/templates/agents-overview.md
 
 **Tier 1 - Orchestration**: chief-architect
 **Tier 2 - Core Workflow**: docs-researcher, implementation-planner, brahma-analyzer, code-implementer, brahma-investigator
-**Tier 3 - Production**: brahma-deployer, brahma-monitor, brahma-optimizer
+**Tier 3 - Code Quality**: code-reviewer, test-generator, security-auditor, refactoring-specialist, pr-feedback-analyst
+**Tier 4 - Infrastructure**: migration-specialist, dependency-manager, api-designer
+**Tier 5 - Production**: brahma-deployer, brahma-monitor, brahma-optimizer
 
 ### Skills (5 auto-invoked capabilities)
 @.claude/templates/skills-overview.md
@@ -78,6 +87,10 @@ When you use Claude Code in this project:
 # Skip phases when you have artifacts
 > I have the research ready, create a plan
 > I have both research and plan, implement it
+
+# Analyze PR feedback (Copilot, reviewers, bots)
+> /pr-feedback
+# Claude will fetch comments, validate suggestions, create action plan
 ```
 
 ## 🧠 Extended Thinking Modes
