@@ -552,24 +552,62 @@ smart_merge_claude_md() {
     # Create backup
     cp "$target" "$backup" 2>/dev/null || true
 
-    # Create merged version
-    {
-        cat "$source"
-        echo ""
-        echo "---"
-        echo ""
-        echo "# USER CUSTOMIZATIONS (preserved from previous installation)"
-        echo ""
-        cat "$target"
-    } > "$target.tmp" 2>/dev/null
+    # Extract only user customizations (content after the LAST "USER CUSTOMIZATIONS" marker)
+    # This prevents exponential duplication from repeated installs
+    local user_customizations=""
+    local marker="# USER CUSTOMIZATIONS"
 
-    if [ -f "$target.tmp" ]; then
-        mv "$target.tmp" "$target" 2>/dev/null && {
-            log_success "User-level CLAUDE.md smart-merged"
-            log_info "Original backed up to: CLAUDE.md.backup"
-        }
+    if grep -q "$marker" "$target" 2>/dev/null; then
+        # Get content after the LAST occurrence of the marker
+        # Use tac (reverse) to find last marker, then reverse back
+        user_customizations=$(tac "$target" 2>/dev/null | sed -n "1,/$marker/p" | tac | tail -n +2)
+
+        # If tac isn't available, fall back to awk
+        if [ -z "$user_customizations" ] && command -v awk >/dev/null 2>&1; then
+            user_customizations=$(awk "/$marker/{found=1; content=\"\"; next} found{content=content\"\n\"\$0} END{print content}" "$target" 2>/dev/null)
+        fi
+    fi
+
+    # Check if there are actual user customizations (not just the template repeated)
+    # If customizations start with the template header, it's a duplicate - ignore it
+    local template_header="# Agentic Substrate"
+    if echo "$user_customizations" | head -5 | grep -q "$template_header" 2>/dev/null; then
+        log_info "No unique user customizations found - installing fresh template"
+        if cp "$source" "$target" 2>/dev/null; then
+            log_success "User-level CLAUDE.md installed (fresh)"
+        fi
+        return 0
+    fi
+
+    # Trim leading/trailing whitespace from customizations
+    user_customizations=$(echo "$user_customizations" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
+    # Create merged version only if there are actual customizations
+    if [ -n "$user_customizations" ] && [ "$user_customizations" != "" ]; then
+        {
+            cat "$source"
+            echo ""
+            echo "---"
+            echo ""
+            echo "# USER CUSTOMIZATIONS (preserved from previous installation)"
+            echo ""
+            echo "$user_customizations"
+        } > "$target.tmp" 2>/dev/null
+
+        if [ -f "$target.tmp" ]; then
+            mv "$target.tmp" "$target" 2>/dev/null && {
+                log_success "User-level CLAUDE.md smart-merged (customizations preserved)"
+                log_info "Original backed up to: CLAUDE.md.backup"
+            }
+        else
+            log_warning "Smart merge failed, keeping existing CLAUDE.md"
+        fi
     else
-        log_warning "Smart merge failed, keeping existing CLAUDE.md"
+        # No customizations - just install fresh template
+        log_info "No user customizations to preserve - installing fresh template"
+        if cp "$source" "$target" 2>/dev/null; then
+            log_success "User-level CLAUDE.md installed (fresh)"
+        fi
     fi
 }
 
