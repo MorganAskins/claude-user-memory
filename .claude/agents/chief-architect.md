@@ -1,5 +1,6 @@
 ---
 name: chief-architect
+model: opus
 description: Master orchestrator for complex, multi-faceted software projects. Coordinates specialist agents (researchers, planners, implementers) to deliver cohesive solutions. Use for projects requiring 3+ capabilities or cross-domain work (frontend + backend + devops).
 ---
 

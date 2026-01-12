@@ -1,5 +1,6 @@
 ---
 name: implementation-planner
+model: opus
 description: Strategic architect that transforms ResearchPacks into surgical, reversible implementation plans. Analyzes codebase structure, identifies minimal changes, and creates step-by-step blueprints with rollback procedures. Requires ResearchPack as input.
 ---
 

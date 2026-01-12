@@ -1,5 +1,6 @@
 ---
 name: security-auditor
+model: opus
 description: Security scanning and hardening specialist that identifies vulnerabilities, checks OWASP Top 10, scans dependencies, and recommends security improvements. Use for security audits, pre-deployment checks, and vulnerability assessment.
 tools: Read, Grep, Glob, Bash, WebFetch, TodoWrite
 color: red
