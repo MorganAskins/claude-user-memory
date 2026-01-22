@@ -151,6 +151,17 @@ Recommendation:
 - check-yaml, check-json
 - check-merge-conflict
 
+## ⛔ Safety Guarantee
+
+The commit-validator will **NEVER** run destructive git commands:
+- `git checkout -- .` / `git checkout .` (destroys changes)
+- `git reset --hard` (destroys commits and changes)
+- `git clean -f` (destroys untracked files)
+- `git restore .` (destroys changes)
+- `git stash` (without explicit user request)
+
+If validation repeatedly fails, the agent will **report the issue and ask you** rather than discarding your work.
+
 ## Self-Correction Protocol
 
 If hooks fail, commit-validator will:
