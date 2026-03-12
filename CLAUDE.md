@@ -33,11 +33,11 @@ This repository contains the **Agentic Substrate** - the foundational layer for 
 
 ## Core Components
 
-### Agents (18 specialists across 5 tiers)
+### Agents (19 specialists across 5 tiers)
 @.claude/templates/agents-overview.md
 
 **Tier 1 - Orchestration**: chief-architect
-**Tier 2 - Core Workflow**: docs-researcher, implementation-planner, brahma-analyzer, code-implementer, commit-validator, brahma-investigator
+**Tier 2 - Core Workflow**: docs-researcher, implementation-planner, brahma-analyzer, code-implementer, commit-validator, rebase-assistant, brahma-investigator
 **Tier 3 - Code Quality**: code-reviewer, test-generator, security-auditor, refactoring-specialist, pr-feedback-analyst
 **Tier 4 - Infrastructure**: migration-specialist, dependency-manager, api-designer
 **Tier 5 - Production**: brahma-deployer, brahma-monitor, brahma-optimizer

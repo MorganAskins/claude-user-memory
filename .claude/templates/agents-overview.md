@@ -1,6 +1,6 @@
 # Agents Overview
 
-The Agentic Substrate provides **18 specialized agents** that work together across the complete software development lifecycle:
+The Agentic Substrate provides **19 specialized agents** that work together across the complete software development lifecycle:
 
 ---
 
@@ -26,7 +26,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-## TIER 2: CORE WORKFLOW (6 agents - Research → Plan → Analyze → Implement → Commit → Debug)
+## TIER 2: CORE WORKFLOW (7 agents - Research → Plan → Analyze → Implement → Commit → Rebase → Debug)
 
 ### 2. docs-researcher
 **Purpose**: High-speed documentation specialist
@@ -142,7 +142,35 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 7. brahma-investigator
+### 7. rebase-assistant
+**Purpose**: Interactive git rebase specialist with guided conflict resolution
+
+**Use when**: Rebasing feature branches, resolving rebase conflicts, recovering from stuck rebases
+
+**Example**: "Rebase my branch onto main" or "Help me finish this stuck rebase"
+
+**What it does**:
+- Creates safety backup before rebasing
+- Detects target branch (main/master) automatically
+- Guides through each conflict with clear labeling (upstream vs your changes)
+- Never auto-resolves without user approval
+- Explains the ours/theirs swap (they're reversed during rebase)
+- Offers per-file resolution: keep upstream, keep yours, combine, skip, abort
+- Verifies no conflict markers remain before continuing
+- Post-rebase verification against backup
+
+**Think Protocol**: Progressive modes based on complexity
+- **think** (30-60s): Simple rebase, few conflicts
+- **think hard** (1-2min): Multiple conflicts, semantic merge decisions
+- **think harder** (2-4min): Large rebases, architectural conflicts
+
+**Command**: `/rebase`
+
+**Tools**: Read, Grep, Glob, Bash, Edit, Write, TodoWrite
+
+---
+
+### 8. brahma-investigator
 **Purpose**: Root cause analysis and debugging specialist
 
 **Use when**: Complex bugs, production incidents, system failures
@@ -168,7 +196,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ## TIER 3: CODE QUALITY (5 agents - Review → Test → Refactor → Security → PR Feedback)
 
-### 8. code-reviewer
+### 9. code-reviewer
 **Purpose**: Code review specialist for quality, security, and best practices
 
 **Use when**: Before commits, for PR reviews, wanting a second opinion
@@ -193,7 +221,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 9. test-generator
+### 10. test-generator
 **Purpose**: Comprehensive test suite generation
 
 **Use when**: Need tests for existing code, improving coverage, TDD support
@@ -218,7 +246,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 10. security-auditor
+### 11. security-auditor
 **Purpose**: Security scanning and vulnerability assessment
 
 **Use when**: Security audits, pre-deployment checks, vulnerability assessment
@@ -243,7 +271,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 11. refactoring-specialist
+### 12. refactoring-specialist
 **Purpose**: Safe, incremental code improvement
 
 **Use when**: Reducing technical debt, improving code quality without changing behavior
@@ -268,7 +296,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 12. pr-feedback-analyst
+### 13. pr-feedback-analyst
 **Purpose**: GitHub PR feedback triage and action planning
 
 **Use when**: PR has comments from Copilot, reviewers, or bots that need analysis
@@ -300,7 +328,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ## TIER 4: INFRASTRUCTURE (3 agents - Migrate → Dependencies → API Design)
 
-### 13. migration-specialist
+### 14. migration-specialist
 **Purpose**: Database, API, and dependency migrations
 
 **Use when**: Schema changes, version upgrades, platform migrations
@@ -326,7 +354,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 14. dependency-manager
+### 15. dependency-manager
 **Purpose**: Package management and security compliance
 
 **Use when**: Updating dependencies, resolving conflicts, security patching
@@ -349,7 +377,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 15. api-designer
+### 16. api-designer
 **Purpose**: API design and documentation specialist
 
 **Use when**: Designing new APIs, improving existing ones, generating specs
@@ -374,7 +402,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ## TIER 5: PRODUCTION DEPLOYMENT (3 agents - Deploy → Monitor → Optimize)
 
-### 16. brahma-deployer
+### 17. brahma-deployer
 **Purpose**: Production deployment specialist with safety-first patterns
 
 **Use when**: Deploying to production, managing releases
@@ -400,7 +428,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 17. brahma-monitor
+### 18. brahma-monitor
 **Purpose**: Observability and monitoring specialist
 
 **Use when**: Setting up observability, tracking SLI/SLO, incident detection
@@ -426,7 +454,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 
 ---
 
-### 18. brahma-optimizer
+### 19. brahma-optimizer
 **Purpose**: Performance optimization and auto-scaling specialist
 
 **Use when**: Performance issues, scaling challenges, cost optimization
@@ -478,6 +506,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 @implementation-planner Plan integration of Stripe webhooks
 @code-implementer Execute payment integration plan
 @commit-validator Run pre-commit and prepare for commit
+@rebase-assistant Rebase my branch onto main
 @code-reviewer Review the implementation
 @test-generator Generate tests for payment service
 @security-auditor Audit payment code for vulnerabilities
@@ -505,6 +534,7 @@ The Agentic Substrate provides **18 specialized agents** that work together acro
 | `/plan` | implementation-planner | Create implementation plan |
 | `/implement` | code-implementer | Execute plan |
 | `/commit` | commit-validator | Pre-commit validation |
+| `/rebase` | rebase-assistant | Interactive git rebase |
 | `/review` | code-reviewer | Code review |
 | `/test` | test-generator | Generate tests |
 | `/audit` | security-auditor | Security audit |
